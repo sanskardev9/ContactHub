@@ -1,9 +1,12 @@
 import React from 'react'
+import ContactListApp from './components/ContactListApp'
 
 const App = () => {
   return (
-    <div>App</div>
+    <>
+      <ContactListApp/>
+    </>
   )
 }
 
-export default App
+export default App  

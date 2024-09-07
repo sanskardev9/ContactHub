@@ -1,0 +1,38 @@
+/* .navbar-and-list {
+    width: 100%;
+    height: 445px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+} */
+
+/* Basic styling for the navbar-and-list */
+.navbar-and-list {
+    width: 100%;              /* Full width of the parent container */
+    height: 100%;             /* Full height of the parent container */
+    display: flex;            /* Use flexbox for layout */
+    flex-direction: row;      /* Arrange children horizontally */
+    align-items: center;      /* Center items vertically */
+    justify-content: space-between; /* Space items evenly */
+    padding: 10px;           /* Optional: Add padding if needed */
+    box-sizing: border-box;  /* Include padding and border in the element's total width and height */
+    overflow: hidden;        /* Prevent content overflow if necessary */
+}
+
+/* Media queries for responsive design */
+
+/* For mobile phones (max width 480px) */
+@media (max-width: 480px) {
+    .navbar-and-list {
+        flex-direction: column; /* Stack items vertically on small screens */
+        height: auto;           /* Allow height to adjust based on content */
+    }
+}
+
+/* For tablets (min-width 481px and max-width 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+    .navbar-and-list {
+        padding: 5px;          /* Reduce padding for tablets */
+    }
+}
