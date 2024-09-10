@@ -12,7 +12,8 @@ const Form = () => {
   const [userData, setUserData] = useState({
     name: "",
     surname: "",
-    phone: ""
+    phone: "",
+    email: ""
   });
 
   const submitHandler = (e) => {
@@ -23,8 +24,12 @@ const Form = () => {
     setUserData({
       name: '',
       surname: '',
-      phone: '' 
+      phone: '',
+      email: ''
     })
+
+    console.log(userData);
+
   };
 
   const inputHandler = (e) => {
@@ -50,6 +55,10 @@ const Form = () => {
       <div className="input-tel">
         <input type="text" placeholder="Phone Number" name= "phone" value={userData.phone} onChange={inputHandler} required />
       </div>
+      <div className="input-text">
+        <input type="email" placeholder="Email" name= "email" value={userData.email} onChange={inputHandler} required />
+      </div>
+     
       <Button name="Add" />
     </form>
   );

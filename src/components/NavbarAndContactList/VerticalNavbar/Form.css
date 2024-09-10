@@ -27,7 +27,7 @@ input::placeholder {
   display: flex;
 }
 
-.form input[type="text"] {
+.form input {
   width: 90px;
   height: 35px;
   padding: 10px;
@@ -41,6 +41,10 @@ input::placeholder {
 }
 
 .input-tel input[type="text"] {
+  width: 190px;
+}
+
+.input-text [type="email"] {
   width: 190px;
   margin-bottom: 10px;
 }

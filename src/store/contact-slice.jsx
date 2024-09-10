@@ -3,7 +3,6 @@ import {createSlice} from '@reduxjs/toolkit'
 const initialState = {
     contact: {
         name: '',
-        surname: '',
         phone: ''
     }
 }

@@ -1,5 +1,11 @@
+.card {
+    background-color: #6f5cc2;
+}
+
 .btn {
     border-radius: 30px;
+    background-color:white;
+    color: black;
     padding: 12px 20px;
     font-size: 16px;
     font-weight: 500;
@@ -10,10 +16,13 @@
     text-align: center;
     width: 100%;
 }
+.btn:hover{
+    background-color: black;
+    color: white;
+}
 
 .sign-up {
     display: flex;
-    background-color: #66a6ff;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -21,10 +30,12 @@
 }
 
 .btn-secondary {
-    background-color: #66a6ff;
+    background-color: white;
+    color: black;
 }
 .btn-secondary:hover{
-    background-color: #66a6ff;
+    background-color: black;
+    color: white;
 }
 
 .signup-info {
@@ -35,7 +46,15 @@
     text-align: center;
 }
 
-.btn-secondary:hover {
-    background-color: #528ae0;
+.log-cont {
+    display: flex;
+    text-decoration: underline;
+    flex-direction: row;
+    text-align: center;
+    justify-content: center;
+    
 }
 
+.log-img { 
+    font-size: 17px;
+}

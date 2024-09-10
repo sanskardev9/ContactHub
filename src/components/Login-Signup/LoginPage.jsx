@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import "./LoginPage.css";
 import { setAccessToken } from "../../store/authslice";
 import { Link } from "react-router-dom";
+import { BiSolidLock } from "react-icons/bi";
 
 const LoginPage = ({ onLogin }) => {
   const [email, setEmail] = useState("");
@@ -26,17 +27,14 @@ const LoginPage = ({ onLogin }) => {
       );
 
       const data = await response.json();
-      console.log(data);
 
       if (response.ok) {
         const token = data.accessToken;
         const user = data.user;
 
-        console.log(user.username);
-
         localStorage.setItem("accessToken", token);
 
-        dispatch(setAccessToken(token));
+        dispatch(setAccessToken({token : token, user}));
 
         onLogin();
       } else {
@@ -49,8 +47,18 @@ const LoginPage = ({ onLogin }) => {
 
   return (
     <div className="card">
-      <h2 className="card-title text-center"><u>Login</u></h2>
-      {error && <p className="error">{error}</p>}
+      
+      <div className="log-cont">
+        <div className="log">
+          <h2 className="card-title text-center">login</h2>
+        </div>
+        <div className="log-img">
+          <BiSolidLock />
+        </div>
+      </div>
+      
+      
+      {error && <p className="error" style={{color:'#666666'}}>{error}</p>}
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="login-email">Email address</label>
@@ -76,7 +84,7 @@ const LoginPage = ({ onLogin }) => {
             required
           />
         </div>
-        <button type="submit" className="btn btn-primary">
+        <button type="submit" className="btn">
           Login
         </button>
         <p className="signup-info">Don't have an account</p>

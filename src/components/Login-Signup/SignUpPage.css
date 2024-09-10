@@ -1,5 +1,4 @@
 body {
-    background: linear-gradient(135deg, #89f7fe, #66a6ff);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -110,4 +109,18 @@ body {
 
 .row {
     width: 100%;
+}
+
+
+.sign-cont {
+    display: flex;
+    text-decoration: underline;
+    flex-direction: row;
+    text-align: center;
+    justify-content: center;
+    
+}
+
+.sign-img { 
+    font-size: 17px;
 }
