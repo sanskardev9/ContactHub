@@ -1,0 +1,41 @@
+.btn {
+    border-radius: 30px;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: 500;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: none;
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+}
+
+.sign-up {
+    display: flex;
+    background-color: #66a6ff;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 30px;
+}
+
+.btn-secondary {
+    background-color: #66a6ff;
+}
+.btn-secondary:hover{
+    background-color: #66a6ff;
+}
+
+.signup-info {
+    color: #666666;
+    display: flex;
+    margin-top: 1rem;
+    justify-content: center;
+    text-align: center;
+}
+
+.btn-secondary:hover {
+    background-color: #528ae0;
+}
+
