@@ -53,8 +53,19 @@
     text-align: center;
     justify-content: center;
     
+    
 }
 
 .log-img { 
     font-size: 17px;
+}
+
+.heading h1{
+    color: white;
+    font-weight: 900;
+    text-align: center;
+    margin-bottom: 1.5rem;  
+    font-family: "Dancing Script", cursive;
+    font-optical-sizing: auto;
+    font-style: normal;
 }

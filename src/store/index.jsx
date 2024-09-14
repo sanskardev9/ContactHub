@@ -5,7 +5,7 @@ import contactReducer from './contact-slice';
 const store = configureStore({
     reducer: {
         auth: authReducer,
-        contact: contactReducer,
+        contacts: contactReducer,
     }
 });
 

@@ -1,105 +1,119 @@
-import React, { useEffect, useState } from 'react'
-import './ContactList.css'
-import { useSelector } from 'react-redux'
+import React, { useEffect } from "react";
+import "./ContactList.css";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteContact, fetchData, fetchContactById } from "../../../store/contactThunks";
+import { selectIsLoading, selectIsError, selectContacts, selectErrorMessage, selectToken } from "../../../store/selectors";
 
 const ContactList = () => {
-
-  const [contacts, setContacts] = useState([]);
-  const token = useSelector((state) => state.auth.accessToken)
+  const dispatch = useDispatch();
+  
+  const contacts = useSelector(selectContacts);
+  const isLoading = useSelector(selectIsLoading);
+  const isError = useSelector(selectIsError);
+  const errorMessage = useSelector(selectErrorMessage);
+  const token = useSelector(selectToken);
 
   useEffect(() => {
-    const fetchContacts = async () => {
-      try {
-        const res = await fetch('https://mycontacts-backend-flub.onrender.com/api/contacts/', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`, 
-          },
-        });
-
-        if (!res.ok) {
-          throw new Error(`HTTP error! Status: ${res.status}`);
-        }
-
-        const data = await res.json();
-        setContacts(data);
-      } catch (error) {
-        console.error('Error fetching contacts:', error);
-      }
-    };
-
     if (token) {
-      fetchContacts();
+      dispatch(fetchData());
     }
+  }, [dispatch, token]);
 
-  },[token]);
-  
+  useEffect(() => {
+    console.log('Contacts:', contacts);
+  }, [contacts]);
+
+  const handleDelete = (contactId) => {
+    if(window.confirm('Are you sure you want to delete this contact?')) {
+      dispatch(deleteContact(contactId))
+      .unwrap()
+      .then(() => {
+        dispatch(fetchData());
+      })
+      .catch((error) => {
+        console.error('Falied to delete contact : ',error);
+      })
+    }
+  };
+
+  const handleUpdate = (contactId) => {
+    dispatch(fetchContactById(contactId))
+  }
+
+  if (isLoading) {
+    return <h1 className="loading">Loading...</h1>;
+  }
+
+  if (isError) {
+    return <h1 className="error">Error: {errorMessage}</h1>;
+  }
+
+  if (contacts.length === 0) {
+    return <h1 className="no-data">No Contacts Available</h1>;
+  }
 
   return (
-    <div className='contact-list'>
+    
+    <div className="contact-list">
       <table>
         <thead>
           <tr>
-            <th><p>Profile</p></th>
-            <th><p>Name</p></th>
-            <th><p>Surname</p></th>
-            <th><p>Mobile</p></th>
-            <th><p>E-mail</p></th>
-            <th><p>Actions</p></th>
+            <th>
+              <p>Profile</p>
+            </th>
+            <th>
+              <p>Name</p>
+            </th>
+            <th>
+              <p>Surname</p>
+            </th>
+            <th>
+              <p>Mobile</p>
+            </th>
+            <th>
+              <p>E-mail</p>
+            </th>
+            <th>
+              <p>Actions</p>
+            </th>
           </tr>
         </thead>
         <tbody>
           {contacts.map((contact) => (
             <tr key={contact._id}>
-              <td className='user-icon'>
-                <div className='profile-img-box'>
-                  <i className='fa-solid fa-user'/>
+              <td className="user-icon">
+                <div className="profile-img-box">
+                  <i className="fa-solid fa-user" />
                 </div>
               </td>
-              <td><h2>{contact.name}</h2></td>
-              <td><h2>{contact.surname}</h2></td>
-              <td><h2>{contact.phone}</h2></td>
-              <td><h2>{contact.email}</h2></td>
+              <td>
+                <h2>{contact.name}</h2>
+              </td>
+              <td>
+                <h2>{contact.surname}</h2>
+              </td>
+              <td>
+                <h2>{contact.phone}</h2>
+              </td>
+              <td>
+                <h2>{contact.email}</h2>
+              </td>
               <td>
                 <div>
-                  <i className='fa-solid fa-pen' />
-                  <i className='fa-solid fa-trash' />
-                  <i className='fa-solid fa-heart' />
+                  <i className="fa-solid fa-pen" onClick={() => handleUpdate(contact._id)} />
+                  <i className="fa-solid fa-trash" onClick={() => handleDelete(contact._id)}/>
+                  <i className="fa-solid fa-heart" />
                 </div>
-               </td>
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
     </div>
-  )
-}
+  );
+};
 
-export default ContactList
-
-
+export default ContactList;
 
 
 
-
-
-
-
-
-// <tr>
-//             <td className='user-icon'>
-              
-//             </td>
-//             <td><h2>Sanskar</h2></td>
-//             <td><h2>Singh</h2></td>
-//             <td><h2>9818845869</h2></td>
-//             <td><h2>sanskar@gmail.com</h2></td>
-//             <td>
-//               <div>
-//                 <i className='fa-solid fa-pen'/>
-//                 <i className='fa-solid fa-trash'/>
-//                 <i className='fa-solid fa-heart'/>
-//               </div>
-//             </td>
-//           </tr>

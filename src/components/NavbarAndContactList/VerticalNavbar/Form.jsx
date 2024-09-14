@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import "./Form.css";
 import addnewImage from "../../../assets/add-new.svg";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Button from "../../UI/Button";
-import { contactListActions } from "../../../store/contact-slice";
+import { addContact } from "../../../store/contactThunks";
+import { selectIsError, selectIsLoading, selectErrorMessage } from "../../../store/selectors";
 
 const Form = () => {
-
   const dispatch = useDispatch();
+  const isError = useSelector(selectIsError);
+  const isLoading = useSelector(selectIsLoading);
+  const errorMessage = useSelector(selectErrorMessage);
 
   const [userData, setUserData] = useState({
     name: "",
@@ -18,18 +21,13 @@ const Form = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-
-    dispatch(contactListActions.addContact(userData))
-
-    setUserData({
-      name: '',
-      surname: '',
-      phone: '',
-      email: ''
-    })
-
-    console.log(userData);
-
+    dispatch(addContact(userData))
+      setUserData({
+        name: '',
+        surname: '',
+        phone: '',
+        email: ''
+      });
   };
 
   const inputHandler = (e) => {

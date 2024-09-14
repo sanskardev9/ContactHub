@@ -4,7 +4,10 @@ import { TiUserAdd } from "react-icons/ti";
 
 const SignUpPage = () => {
   return (
-
+    <>
+    <div className="heading">
+      <h1>ContactHub</h1>
+    </div>
     <div className="card">
       <div className="sign-cont">
         <div className="log">
@@ -48,6 +51,7 @@ const SignUpPage = () => {
         </button>
       </form>
     </div>
+    </>
   );
 };
 

@@ -46,6 +46,10 @@ const LoginPage = ({ onLogin }) => {
   };
 
   return (
+    <>
+    <div className="heading">
+      <h1>ContactHub</h1>
+    </div>
     <div className="card">
       
       <div className="log-cont">
@@ -93,6 +97,7 @@ const LoginPage = ({ onLogin }) => {
         </div>
       </form>
     </div>
+    </>
   );
 };
 
