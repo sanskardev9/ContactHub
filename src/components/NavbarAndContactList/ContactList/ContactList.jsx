@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./ContactList.css";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteContact, fetchData, fetchContactById } from "../../../store/contactThunks";
 import { selectIsLoading, selectIsError, selectContacts, selectErrorMessage, selectToken } from "../../../store/selectors";
+import { contactListActions } from "../../../store/contact-slice";
 
 const ContactList = () => {
   const dispatch = useDispatch();
@@ -12,16 +13,6 @@ const ContactList = () => {
   const isError = useSelector(selectIsError);
   const errorMessage = useSelector(selectErrorMessage);
   const token = useSelector(selectToken);
-
-  useEffect(() => {
-    if (token) {
-      dispatch(fetchData());
-    }
-  }, [dispatch, token]);
-
-  useEffect(() => {
-    console.log('Contacts:', contacts);
-  }, [contacts]);
 
   const handleDelete = (contactId) => {
     if(window.confirm('Are you sure you want to delete this contact?')) {
@@ -37,24 +28,25 @@ const ContactList = () => {
   };
 
   const handleUpdate = (contactId) => {
-    dispatch(fetchContactById(contactId))
+    dispatch(contactListActions.setExistingContact(contactId));
   }
 
-  if (isLoading) {
-    return <h1 className="loading">Loading...</h1>;
-  }
+  useEffect(() => {
+    if (token) {
+      dispatch(fetchData());
+    }
+  }, [dispatch, token]);
 
-  if (isError) {
-    return <h1 className="error">Error: {errorMessage}</h1>;
-  }
+  
+  
 
-  if (contacts.length === 0) {
-    return <h1 className="no-data">No Contacts Available</h1>;
-  }
+ 
+
+  if (!isLoading && contacts.length != 0){
 
   return (
     
-    <div className="contact-list">
+    <div  className="contact-list">
       <table>
         <thead>
           <tr>
@@ -111,6 +103,18 @@ const ContactList = () => {
       </table>
     </div>
   );
+}
+else if (isLoading) {
+  return <div><h1 className="loading">Loading...</h1></div>;
+} 
+else if (contacts.length === 0) {
+  return <div>No Contacts Available</div>
+}
+
+else {
+  return <h1 className="error">Error: {errorMessage}</h1>;
+}
+
 };
 
 export default ContactList;

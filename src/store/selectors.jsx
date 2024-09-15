@@ -4,3 +4,4 @@ export const selectIsLoading = (state) => state.contacts.isLoading;
 export const selectIsError = (state) => state.contacts.isError;
 export const selectErrorMessage = (state) => state.contacts.errorMessage;
 export const selectToken = (state) => state.auth.accessToken 
+export const selectKey = (state) => state.contacts.key

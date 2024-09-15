@@ -8,6 +8,7 @@ import {
 } from "./contactThunks";
 
 const initialState = {
+  key:'',
   contacts: [],
   contact: null, // For a single contact
   isLoading: false,
@@ -18,7 +19,11 @@ const initialState = {
 const contactSlice = createSlice({
   name: "contacts",
   initialState,
-  reducers: {},
+  reducers: {
+    setExistingContact: (state, action) => {
+      state.key = action.payload;
+    }
+  },
   extraReducers: (builder) => {
     // Fetch All Contacts
     builder

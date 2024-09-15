@@ -1,17 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Form.css";
 import addnewImage from "../../../assets/add-new.svg";
 import { useDispatch, useSelector } from "react-redux";
 import Button from "../../UI/Button";
-import { addContact } from "../../../store/contactThunks";
-import { selectIsError, selectIsLoading, selectErrorMessage } from "../../../store/selectors";
+import { addContact, fetchContactById } from "../../../store/contactThunks";
+import { selectIsError, selectIsLoading, selectErrorMessage, selectKey } from "../../../store/selectors";
 
 const Form = () => {
   const dispatch = useDispatch();
-  const isError = useSelector(selectIsError);
-  const isLoading = useSelector(selectIsLoading);
-  const errorMessage = useSelector(selectErrorMessage);
-
   const [userData, setUserData] = useState({
     name: "",
     surname: "",
@@ -19,6 +15,35 @@ const Form = () => {
     email: ""
   });
 
+  const isError = useSelector(selectIsError);
+  const isLoading = useSelector(selectIsLoading);
+  const errorMessage = useSelector(selectErrorMessage);
+  const existingUserKey = useSelector(selectKey);
+
+  useEffect(() => {
+    const fetchContact = async () => {
+      if(existingUserKey){
+        try{  
+          // Waiting for the data to come from the backend
+          const existingContact = await dispatch(fetchContactById(existingUserKey)).unwrap(); 
+
+          // Set the fetched contact data to the form
+          setUserData({
+            name: existingContact ?.name || '',
+            surname: existingContact?.surname || '',
+            phone: existingContact?.phone || '',
+            email: existingContact?.email || '',
+          })
+        }catch(err){
+          console.error("Failed to fetch the existing user.", err);
+        }
+      }
+    }
+
+    fetchContact(); 
+  }, [existingUserKey, dispatch])
+
+ 
   const submitHandler = (e) => {
     e.preventDefault();
     dispatch(addContact(userData))
@@ -63,3 +88,7 @@ const Form = () => {
 };
 
 export default Form;
+
+
+
+    
