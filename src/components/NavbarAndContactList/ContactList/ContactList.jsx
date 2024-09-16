@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteContact, fetchData, fetchContactById } from "../../../store/contactThunks";
 import { selectIsLoading, selectIsError, selectContacts, selectErrorMessage, selectToken } from "../../../store/selectors";
 import { contactListActions } from "../../../store/contact-slice";
+import { MdModeEdit } from "react-icons/md";
+import { FaTrash, FaHeart } from "react-icons/fa";
 
 const ContactList = () => {
   const dispatch = useDispatch();
@@ -91,10 +93,10 @@ const ContactList = () => {
                 <h2>{contact.email}</h2>
               </td>
               <td>
-                <div>
-                  <i className="fa-solid fa-pen" onClick={() => handleUpdate(contact._id)} />
-                  <i className="fa-solid fa-trash" onClick={() => handleDelete(contact._id)}/>
-                  <i className="fa-solid fa-heart" />
+                <div className="action-icons">
+                  <div className="edit-icon" onClick={() => handleUpdate(contact._id)}><MdModeEdit/></div>
+                  <div className="delete-icon" onClick={() => handleDelete(contact._id)}><FaTrash/></div>
+                  <div className="fav-icon" ><FaHeart/></div>
                 </div>
               </td>
             </tr>

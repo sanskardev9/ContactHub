@@ -2,6 +2,13 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 // Utility Function for API Requests
 const apiRequest = async (url, method, token, body = null) => {
+
+  console.log(`API Request:`);
+  console.log(`URL: ${url}`);
+  console.log(`Method: ${method}`);
+  console.log(`Token: ${token}`);
+  console.log(`Request Body:`, body ? JSON.stringify(body) : 'No body');
+
   const response = await fetch(url, {
     method,
     headers: {
@@ -12,12 +19,20 @@ const apiRequest = async (url, method, token, body = null) => {
     body: body ? JSON.stringify(body) : null,
   });
 
+  console.log(`API Response Status: ${response.status}`);
+  console.log(`API Response Headers: `, response.headers);
+
   if (!response.ok) {
     const errorData = await response.json();
+    console.log("Error Response Data: ", errorData);
+
     const errorMessage = errorData.message || "Something went wrong";
     throw new Error(errorMessage);
   }
-  return response.json();
+  const responseData = response.json();
+  console.log("API Response Data: ", responseData);
+  
+  return responseData;
 };
 
 // Thunk For Fetching All Contacts.
@@ -83,7 +98,8 @@ export const updateContact = createAsyncThunk(
   "updateContact",
   async ({ id, updatedContact }, { getState, rejectWithValue }) => {
     const accessToken = getState().auth.accessToken;
-
+    console.log(`Existing ID: ${id}, Updated Contact Data: `, updatedContact);
+    
     try {
       const data = await apiRequest(
         `https://mycontacts-backend-flub.onrender.com/api/contacts/${id}`,

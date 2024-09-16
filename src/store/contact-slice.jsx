@@ -22,6 +22,9 @@ const contactSlice = createSlice({
   reducers: {
     setExistingContact: (state, action) => {
       state.key = action.payload;
+    },
+    resetKey: (state) => {
+      state.key = '';
     }
   },
   extraReducers: (builder) => {

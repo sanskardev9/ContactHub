@@ -39,6 +39,16 @@
     justify-content: center;
 }
 
-.fa-solid .fa-trash {
-    cursor:crosshair;
+.action-icons{
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    justify-content: center;
 }
+
+.edit-icon, .delete-icon, .fav-icon {
+    cursor: pointer;
+    transition: none;
+    margin-right: 15px;
+    color: #646464;
+  }
