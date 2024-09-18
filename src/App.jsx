@@ -11,12 +11,7 @@ import Signup from "./components/Login-Signup/SignUpPage";
 import FavContactList from "./components/NavbarAndContactList/FavContactList/FavContactList";
 
 const App = () => {
-  const [loggedIn, setLoggedIn] = useState(false);
-
-  useEffect(() => {
-    const isLoggedIn = window.localStorage.getItem("isLoggedIn");
-    setLoggedIn(isLoggedIn === "true");
-  }, []);
+  const [loggedIn, setLoggedIn] = useState(() => window.localStorage.getItem("isLoggedIn") === "true");
 
   const handleLogin = () => {
     window.localStorage.setItem("isLoggedIn", true); // State to track if the user is logged in

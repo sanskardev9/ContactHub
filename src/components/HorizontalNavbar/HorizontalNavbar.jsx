@@ -24,7 +24,7 @@ const HorizontalNavbar = ({ onLogout }) => {
         </div>
 
         <div className="username" style={{display:'flex',flexDirection:'column',justifyContent:'space-between'}}>
-          <h2 style={{ textAlign: "left" }}>
+          <h2>
             {user ? `${user.username}` : "User"}
           </h2>
           <Button name="Logout" onClick={handleLogoutClick} />
