@@ -20,6 +20,8 @@ ul li:hover {
     text-decoration: none;
     cursor: default;
     padding: 8px;
+    width: 100%;
+    background:transparent;
 }
 
 ul .fa-solid {

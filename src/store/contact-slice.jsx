@@ -25,6 +25,13 @@ const contactSlice = createSlice({
     },
     resetKey: (state) => {
       state.key = '';
+    },
+    toggleFavourite: (state, action) => {
+      const contactId = action.payload;
+      const contact = state.contacts.find((contact) => contact._id  === contactId);
+      if(contact) {
+        contact.isFavourite = !contact.isFavourite;
+      } 
     }
   },
   extraReducers: (builder) => {

@@ -4,26 +4,27 @@ import './Navbar.css'
 import { Link } from 'react-router-dom'
 
 const Navbar = () => {
-  const { contacts } = useSelector((state) => state.contacts)
+  const { contacts } = useSelector((state) => state.contacts);
+  const favContacts = contacts.filter(contact => contact.isFavourite);
   return (
     <ul>
       <li>
-        <Link to={'/'} className='link'>
+        <button to={'/'} className='link'>
           <i className='fa-solid fa-address-book'></i>
           <div>
             <h2>All Contacts</h2>
             <p>{`${contacts.length} Contacts`}</p>
           </div>
-        </Link>
+        </button>
       </li>
       <li>
-        <Link to={'/favcontacts'} className='link'>
+        <button to={'/favcontacts'} className='link'>
           <i className='fa-solid fa-heart'></i>
           <div>
             <h2>Favourites</h2>
-            <p>0 Contacts</p>
+            <p>{favContacts.length} Contacts</p>
           </div>
-        </Link>
+        </button>
       </li>
 
     </ul>

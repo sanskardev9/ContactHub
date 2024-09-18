@@ -102,6 +102,7 @@ const Form = () => {
           value={userData.name}
           onChange={inputHandler}
           required
+          pattern='[A-Za-z]+'
         />
         <input
           type="text"
@@ -110,6 +111,7 @@ const Form = () => {
           value={userData.surname}
           onChange={inputHandler}
           required
+          pattern='[A-Za-z]+'
         />
       </div>
       <div className="input-tel">
@@ -120,6 +122,9 @@ const Form = () => {
           value={userData.phone}
           onChange={inputHandler}
           required
+          pattern="^[1-9]\d*$"
+          minLength='10'
+          maxLength='10'
         />
       </div>
       <div className="input-text">
