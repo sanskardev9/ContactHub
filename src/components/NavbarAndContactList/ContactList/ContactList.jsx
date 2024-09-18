@@ -131,13 +131,13 @@ const ContactList = ({ favContacts }) => {
   } else if (isLoading) {
     return (
       <div>
-        <h1 className="loading">Loading...</h1>
+        <h1 style={{color:'#646464'}} className="loading">Loading...</h1>
       </div>
     );
   } else if (contacts.length === 0) {
-    return <div>No Contacts Available</div>;
+    return <h1 style={{color:'#646464'}}>No Contacts Available</h1>;
   } else {
-    return <h1 className="error">Error: {errorMessage}</h1>;
+    return <h1 style={{color:'#646464'}} className="error">Error: {errorMessage}</h1>;
   }
 };
 

@@ -7,9 +7,13 @@ const NavbarAndContactList = () => {
   return (
     <div className="navbar-and-list">
       <VerticalNavbar />
-      <ContactList />
+      <div className="centered-content">
+        <ContactList />
+        </div>
     </div>
   );
 };
 
 export default NavbarAndContactList;
+
+
