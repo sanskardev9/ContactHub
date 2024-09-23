@@ -1,9 +1,10 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "./LoginPage.css";
-import { setAccessToken } from "../../store/authslice";
 import { Link } from "react-router-dom";
 import { BiSolidLock } from "react-icons/bi";
+import { login } from "../../store/contactThunks";
+import { selectToken } from "../../store/selectors";
 
 const LoginPage = ({ onLogin }) => {
   const [email, setEmail] = useState("");
@@ -11,93 +12,103 @@ const LoginPage = ({ onLogin }) => {
   const [error, setError] = useState("");
   const dispatch = useDispatch();
 
+  const token = useSelector(selectToken)
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const response = await fetch(
-        "https://mycontacts-backend-flub.onrender.com/api/users/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email, password }),
-          credentials: 'include',
-        }
-      );
+    await dispatch(login({email, password})).unwrap();
+    onLogin();
+    localStorage.setItem("accessToken", token);
 
-      const data = await response.json();
+    // try {
+    //   const response = await fetch(
+    //     "https://mycontacts-backend-flub.onrender.com/api/users/login",
+    //     {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify({ email, password }),
+    //       credentials: 'include',
+    //     }
+    //   );
 
-      if (response.ok) {
-        const token = data.accessToken;
-        const user = data.user;
+    //   const data = await response.json();
 
-        localStorage.setItem("accessToken", token);
+    //   if (response.ok) {
+    //     const token = data.accessToken;
+    //     const user = data.user;
 
-        dispatch(setAccessToken({token : token, user}));
+    //     localStorage.setItem("accessToken", token);
 
-        onLogin();
-      } else {
-        setError(data.message || "Login failed");
-      }
-    } catch (error) {
-      setError("An error occurred. Please try again later.");
-    }
+    //     dispatch(setAccessToken({token : token, user}));
+
+    //     onLogin();
+    //   } else {
+    //     setError(data.message || "Login failed");
+    //   }
+    // } catch (error) {
+    //   setError("An error occurred. Please try again later.");
+    // }
   };
 
   return (
     <>
-    <div className="heading">
-      <h1>ContactHub</h1>
-    </div>
-    <div className="card">
-      
-      <div className="log-cont">
-        <div className="log">
-          <h2 className="card-title text-center">login</h2>
-        </div>
-        <div className="log-img">
-          <BiSolidLock />
-        </div>
+      <div className="heading">
+        <h1>ContactHub</h1>
       </div>
-      
-      
-      {error && <p className="error" style={{color:'#666666'}}>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="login-email">Email address</label>
-          <input
-            type="email"
-            className="form-control"
-            id="login-email"
-            placeholder="Enter email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+      <div className="card">
+        <div className="log-cont">
+          <div className="log">
+            <h2 className="card-title text-center">login</h2>
+          </div>
+          <div className="log-img">
+            <BiSolidLock />
+          </div>
         </div>
-        <div className="form-group">
-          <label htmlFor="login-password">Password</label>
-          <input
-            type="password"
-            className="form-control"
-            id="login-password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit" className="btn">
-          Login
-        </button>
-        <p className="signup-info">Don't have an account</p>
-        <div className="sign-up">
-            <Link className="btn btn-secondary" to={'/signup'}>Signup</Link>
-        </div>
-      </form>
-    </div>
+
+        {error && (
+          <p className="error" style={{ color: "#666666" }}>
+            {error}
+          </p>
+        )}
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="login-email">Email address</label>
+            <input
+              type="email"
+              className="form-control"
+              id="login-email"
+              placeholder="Enter email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="login-password">Password</label>
+            <input
+              type="password"
+              className="form-control"
+              id="login-password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <button type="submit" className="btn">
+            Login
+          </button>
+          <p className="signup-info">Don't have an account</p>
+          <div className="sign-up">
+            <Link className="btn btn-secondary" to={"/signup"}>
+              Signup
+            </Link>
+          </div>
+        </form>
+      </div>
     </>
   );
 };
