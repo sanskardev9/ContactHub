@@ -38,7 +38,6 @@ const App = () => {
             localStorage.setItem("accessToken", newToken);
           } else {
             console.error(resultAction.payload);
-            // Handle refresh token failure (e.g., log out user)
           }
         } catch (err) {
           console.error(err.message);
