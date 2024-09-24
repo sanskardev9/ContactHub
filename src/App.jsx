@@ -36,8 +36,6 @@ const App = () => {
           if (refreshToken.fulfilled.match(resultAction)) {
             const newToken = resultAction.payload;
             localStorage.setItem("accessToken", newToken);
-          } else {
-            console.error(resultAction.payload);
           }
         } catch (err) {
           console.error(err.message);

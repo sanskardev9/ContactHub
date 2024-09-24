@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 // Utility Function for API Requests
-const apiRequest = async (url, method, token, body = null, refreshToken) => {
+const apiRequest = async (url, method, token, body = null, dispatch, getState) => {
   const response = await fetch(url, {
     method,
     headers: {
@@ -10,21 +10,23 @@ const apiRequest = async (url, method, token, body = null, refreshToken) => {
       Accept: "application/json",
     },
     body: body ? JSON.stringify(body) : null,
-    credentials: "include",
+    credentials: "include", // For sending cookies
   });
 
   if (response.status === 401) {
-    const newAccessToken = await refreshToken();
+    // Refresh the access token when 401 is received
+    const newAccessToken = await dispatch(refreshToken()).unwrap();
 
-    return apiRequest(url, method, newAccessToken, body, refreshToken);
+    // Retry the request with the new access token
+    return apiRequest(url, method, newAccessToken, body, dispatch, getState);
   }
-
 
   if (!response.ok) {
     const errorData = await response.json();
     const errorMessage = errorData.message || "Something went wrong";
     throw new Error(errorMessage);
   }
+
   const responseData = await response.json();
   console.log("API Response Data: ", responseData);
 
@@ -40,7 +42,7 @@ export const login = createAsyncThunk(
         "https://mycontacts-backend-flub.onrender.com/api/users/login/",
         "POST",
         null,
-        { email, password }
+        { email, password } 
       );
       return data;
     } catch (err) {
@@ -52,34 +54,38 @@ export const login = createAsyncThunk(
 // Thunk For RefreshToken
 export const refreshToken = createAsyncThunk(
   "refreshToken",
-  async (_, { rejectWithValue }) => {
-    {
-      try {
-        const data = await apiRequest(
-          "https://mycontacts-backend-flub.onrender.com/api/token/refresh",
-          "POST",
-          null
-        );
+  async (_, { rejectWithValue, dispatch, getState }) => {
+    try {
+      const data = await apiRequest(
+        "https://mycontacts-backend-flub.onrender.com/api/token/refresh",
+        "POST",
+        null, 
+        null, 
+        dispatch,
+        getState
+      );
 
-        return data.accessToken;
-      } catch (err){
-        return rejectWithValue(err.message);
-      }
+      return data.accessToken;
+    } catch (err) {
+      return rejectWithValue(err.message);
     }
   }
 );
 
-// Thunk For Fetching All Contacts.
+// Thunk For Fetching All Contacts
 export const fetchData = createAsyncThunk(
   "fetchData",
-  async (_, { rejectWithValue, getState }) => {
+  async (_, { rejectWithValue, dispatch, getState }) => {
     const accessToken = getState().auth.accessToken;
 
     try {
       const data = await apiRequest(
         "https://mycontacts-backend-flub.onrender.com/api/contacts/",
         "GET",
-        accessToken
+        accessToken,
+        null, 
+        dispatch,
+        getState
       );
       return data;
     } catch (err) {
@@ -88,10 +94,10 @@ export const fetchData = createAsyncThunk(
   }
 );
 
-// Thunk For Fetching Contact By ID.
+// Thunk For Fetching Contact By ID
 export const fetchContactById = createAsyncThunk(
   "fetchContactById",
-  async (id, { getState, rejectWithValue }) => {
+  async (id, { rejectWithValue, dispatch, getState }) => {
     const accessToken = getState().auth.accessToken;
 
     try {
@@ -100,7 +106,8 @@ export const fetchContactById = createAsyncThunk(
         "GET",
         accessToken,
         null,
-        () => store.dispatch(refreshToken()).unwrap(),
+        dispatch,
+        getState
       );
       return data;
     } catch (err) {
@@ -109,19 +116,20 @@ export const fetchContactById = createAsyncThunk(
   }
 );
 
-// Thunk For Adding Contacts.
+// Thunk For Adding Contacts
 export const addContact = createAsyncThunk(
   "addContact",
-  async (newContact, { getState, rejectWithValue }) => {
+  async (newContact, { rejectWithValue, dispatch, getState }) => {
     const accessToken = getState().auth.accessToken;
 
     try {
       const data = await apiRequest(
-        `https://mycontacts-backend-flub.onrender.com/api/contacts/`,
+        "https://mycontacts-backend-flub.onrender.com/api/contacts/",
         "POST",
         accessToken,
         newContact,
-        () => store.dispatch(refreshToken()).unwrap()
+        dispatch,
+        getState
       );
       return data;
     } catch (err) {
@@ -130,20 +138,20 @@ export const addContact = createAsyncThunk(
   }
 );
 
-// Thunk For Updating Contacts.
+// Thunk For Updating Contacts
 export const updateContact = createAsyncThunk(
   "updateContact",
-  async ({ id, updatedContact }, { getState, rejectWithValue }) => {
+  async ({ id, updatedContact }, { rejectWithValue, dispatch, getState }) => {
     const accessToken = getState().auth.accessToken;
-    console.log(`Existing ID: ${id}, Updated Contact Data: `, updatedContact);
 
     try {
       const data = await apiRequest(
         `https://mycontacts-backend-flub.onrender.com/api/contacts/${id}`,
         "PUT",
         accessToken,
-        updatedContact,
-        () => store.dispatch(refreshToken()).unwrap()
+        updatedContact, 
+        dispatch,
+        getState
       );
       return data;
     } catch (err) {
@@ -152,10 +160,10 @@ export const updateContact = createAsyncThunk(
   }
 );
 
-// Thunk For Deleting Contacts.
+// Thunk For Deleting Contacts
 export const deleteContact = createAsyncThunk(
   "deleteContact",
-  async (id, { getState, rejectWithValue }) => {
+  async (id, { rejectWithValue, dispatch, getState }) => {
     const accessToken = getState().auth.accessToken;
 
     try {
@@ -163,7 +171,9 @@ export const deleteContact = createAsyncThunk(
         `https://mycontacts-backend-flub.onrender.com/api/contacts/${id}`,
         "DELETE",
         accessToken,
-        () => store.dispatch(refreshToken()).unwrap()
+        null, // No body for DELETE request
+        dispatch,
+        getState
       );
       return data;
     } catch (err) {
