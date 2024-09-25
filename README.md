@@ -19,7 +19,7 @@ A **full-stack contact management** web application built using **React.js** for
 - **React.js**: JavaScript library for building user interfaces.
 - **Redux Toolkit**: For managing the application state.
 - **Redux Thunk**: For handling asynchronous actions (e.g., API calls).
-- **Axios**: For making HTTP requests to the backend.
+- **Fetch API**: For making HTTP requests to the backend.
 - **CSS**: For styling the application.
 
 ### Backend
@@ -33,12 +33,6 @@ A **full-stack contact management** web application built using **React.js** for
 
 
 ## Getting Started
-
-### Prerequisites
-
-- **Node.js** (v14.x or later)
-- **MongoDB** (local or Atlas)
-- **npm** or **yarn**
 
 ### Installation
 
@@ -56,7 +50,7 @@ A **full-stack contact management** web application built using **React.js** for
 In your `fetch` requests, replace the relative API URLs with the full hosted API URL. For example, in your components, you can set the base URL like this:
 
 ```javascript
-const API_BASE_URL = 'https://api.yourdomain.com';
+const API_BASE_URL = 'https://api.yourdomain.com](https://mycontacts-backend-flub.onrender.com/';
 
 fetch(`${API_BASE_URL}/api/contacts`, {
   method: 'GET',
@@ -81,9 +75,9 @@ The frontend will be accessible at http://localhost:5173.
 | Method | Endpoint                   | Description                          |
 |--------|----------------------------|--------------------------------------|
 | POST   | `/api/users/register`       | Register a new user                 |
-| POST   | `/api/users/login`          | Log in a user                      |
+| POST   | `/api/users/login`          | Log in a user                       |
 | GET    | `/api/contacts`             | Get all contacts for a user         |
-| GET    | `/api/contacts/:id`         | Get contact with id             |
+| GET    | `/api/contacts/:id`         | Get contact with id                 |
 | POST   | `/api/contacts`             | Create a new contact                |
 | PUT    | `/api/contacts/:id`         | Update an existing contact          |
 | DELETE | `/api/contacts/:id`         | Delete a contact                    |
