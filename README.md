@@ -29,8 +29,7 @@ A **full-stack contact management** web application built using **React.js** for
 - **Mongoose**: MongoDB object modeling for Node.js.
 - **JWT**: For user authentication via access and refresh tokens.
 
-## Project Structure
-
+# Project Structure
 
 ## Getting Started
 
@@ -39,7 +38,7 @@ A **full-stack contact management** web application built using **React.js** for
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/contact-manager-app.git
+   git clone https://github.com/sanskardev9/ContactHub.git
    
 2. Install frontend dependencies:
     cd frontend
